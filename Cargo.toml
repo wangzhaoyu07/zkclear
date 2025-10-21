@@ -1,0 +1,68 @@
+[package]
+name = "halo2-graph"
+version = "0.3.0"
+edition = "2021"
+
+[dependencies]
+rand = "=0.8"
+ark-std = { version = "=0.3.0", features = ["print-trace"] }
+serde = { version = "=1.0", default-features = false, features = ["derive"] }
+serde_json = "=1.0"
+log = "=0.4"
+env_logger = "=0.10"
+clap = { version = "4.4", features = ["derive"] }
+clap-num = "=1.0.2"
+num-bigint = "0.4"
+num-integer = "0.1"
+ndarray = "0.13"
+nalgebra = "0.32.3"
+petgraph = "0.6"
+linfa = "0.6.0"
+linfa-logistic = "0.6"
+linfa-datasets = { version = "0.6", features = ["diabetes", "winequality"] }
+linfa-linear = "0.6"
+derive_more = { version = "1.0", features = ["full"] }
+
+# halo2
+halo2_proofs = { git = "https://github.com/privacy-scaling-explorations/halo2.git", tag = "v2023_02_02" }
+
+# Axiom's helper API with basic functions
+halo2-base = { git = "https://github.com/axiom-crypto/halo2-lib", branch = "community-edition" }
+snark-verifier-sdk = { git = "https://github.com/axiom-crypto/snark-verifier.git", branch = "community-edition", features = ["revm"] }
+snark-verifier = { git = "https://github.com/axiom-crypto/snark-verifier.git", branch = "community-edition", features = ["revm"] }
+
+
+[dev-dependencies]
+test-log = "=0.2.11"
+ethers-core = "=2.0.6"
+
+[features]
+default = []
+
+[patch.crates-io]
+halo2-base = { git = "https://github.com/axiom-crypto/halo2-lib", branch = "community-edition" }
+c-kzg = { path = "/export/d1/zwangjz/Github/zk-causal/halo2_example/c-kzg-4844/bindings/rust" }
+
+[profile.dev]
+opt-level = 3
+debug = 1
+overflow-checks = true
+incremental = true
+
+[profile.local]
+inherits = "dev"
+opt-level = 3
+debug = 1
+debug-assertions = false
+panic = 'unwind'
+incremental = true
+lto = "thin"
+codegen-units = 16
+
+[profile.release]
+opt-level = 3
+debug = false
+debug-assertions = false
+lto = "fat"
+panic = "abort"
+incremental = false
